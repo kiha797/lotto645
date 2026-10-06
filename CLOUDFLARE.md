@@ -10,7 +10,7 @@
 
 1. Cloudflare → 스토리지 및 데이터베이스 → D1 → 데이터베이스 생성. 이름은 `lotto645-db`로 지정합니다.
 2. 생성한 데이터베이스의 UUID(데이터베이스 ID)를 복사합니다. Cloudflare 계정 ID나 API 토큰이 아닙니다.
-3. Workers 및 Pages → lotto645 → 설정 → 빌드 → 빌드 변수/환경변수에 `LOTTO_D1_DATABASE_ID`를 추가하고 UUID를 값으로 입력합니다. 런타임 변수만 추가하면 빌드에 반영되지 않습니다.
+3. 현재 코드에는 사용자가 제공한 `e700ef17-ca96-4b7f-b6de-116eeb3367bd`가 기본 DB ID로 반영되어 있습니다. 별도 변수 추가 없이 빌드할 수 있습니다. 다른 DB로 바꿀 때만 Workers의 빌드 변수 `LOTTO_D1_DATABASE_ID`로 재정의합니다. 기존에 잘못 입력한 변수가 있다면 삭제하거나 올바른 UUID로 수정합니다.
 4. D1 데이터베이스 콘솔에서 `scripts/cloudflare-init.sql`을 실행합니다. 기존 저장 데이터는 삭제하지 않습니다. Sites의 저장 데이터는 자동으로 이 DB에 이전되지 않습니다.
 5. Workers의 빌드 명령은 `npm run build`, 배포 명령은 `npx wrangler deploy --config dist/server/wrangler.json`으로 지정합니다. `main` 브랜치, 루트 디렉터리 `/`를 사용합니다.
 6. 최신 커밋으로 새 빌드를 실행합니다. 생성된 배포 설정의 `DB` 바인딩은 빌드 변수의 실제 UUID를 사용합니다.

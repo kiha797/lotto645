@@ -10,7 +10,9 @@ const SITE_CREATOR_PLACEHOLDER_DATABASE_ID =
 const { d1, r2 } = hostingConfig;
 // Sites replaces its local placeholder during publication. Direct Cloudflare
 // builds must instead use a D1 database belonging to the deploying account.
-const cloudflareDatabaseId = process.env.LOTTO_D1_DATABASE_ID?.trim();
+// Public resource identifier supplied by the repository owner.
+const cloudflareDatabaseId = process.env.LOTTO_D1_DATABASE_ID?.trim() ||
+  "e700ef17-ca96-4b7f-b6de-116eeb3367bd";
 if (cloudflareDatabaseId && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(cloudflareDatabaseId)) {
   throw new Error("LOTTO_D1_DATABASE_ID must be the UUID of your Cloudflare D1 database.");
 }
