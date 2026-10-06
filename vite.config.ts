@@ -8,6 +8,15 @@ const SITE_CREATOR_PLACEHOLDER_DATABASE_ID =
   "00000000-0000-4000-8000-000000000000";
 
 const { d1, r2 } = hostingConfig;
+// Sites replaces its local placeholder during publication. Direct Cloudflare
+// builds must instead use a D1 database belonging to the deploying account.
+const cloudflareDatabaseId = process.env.LOTTO_D1_DATABASE_ID?.trim();
+if (cloudflareDatabaseId && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(cloudflareDatabaseId)) {
+  throw new Error("LOTTO_D1_DATABASE_ID must be the UUID of your Cloudflare D1 database.");
+}
+if (cloudflareDatabaseId === SITE_CREATOR_PLACEHOLDER_DATABASE_ID) {
+  throw new Error("LOTTO_D1_DATABASE_ID cannot use the local preview placeholder.");
+}
 
 // macOS Seatbelt blocks FSEvents, so Codex previews need polling for HMR.
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
@@ -20,8 +29,8 @@ const localBindingConfig = {
     ? [
         {
           binding: d1,
-          database_name: "site-creator-d1",
-          database_id: SITE_CREATOR_PLACEHOLDER_DATABASE_ID,
+          database_name: cloudflareDatabaseId ? "lotto645-db" : "site-creator-d1",
+          database_id: cloudflareDatabaseId ?? SITE_CREATOR_PLACEHOLDER_DATABASE_ID,
         },
       ]
     : [],
