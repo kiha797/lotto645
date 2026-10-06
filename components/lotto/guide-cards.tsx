@@ -1,0 +1,2 @@
+import {guides} from '@/lib/guides';
+export function GuideCards({slugs,limit}:{slugs?:string[];limit?:number}){const list=(slugs?guides.filter(g=>slugs.includes(g.slug)):guides).slice(0,limit??99);return <div className="guide-grid">{list.map(g=><a href={`/guides/${g.slug}`} key={g.slug} className="card guide-card"><span className="guide-category">{g.category}</span><h3>{g.title}</h3><p>{g.summary}</p><span className="guide-read">계산법과 예시 읽기</span></a>)}</div>}

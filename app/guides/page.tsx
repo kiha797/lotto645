@@ -1,0 +1,5 @@
+import {PageHead} from '@/components/lotto/shell';
+import {GuideCards} from '@/components/lotto/guide-cards';
+import {AdSlot} from '@/components/lotto/ads';
+export const metadata={title:'로또 분석 가이드',description:'1등 확률, 홀짝, 합계, 연속번호, AC값, 미출현, 직전 중복의 계산법과 한계를 설명하는 로또노트 가이드 12편.'};
+export default function Page(){return <main className="container content-page"><PageHead title="숫자를 고르기 전에, 기준부터" description="추천의 계산법과 통계의 한계를 함께 읽는 로또 6/45 가이드." kicker="READ THE NUMBERS"/><section className="learning-intro"><div><span className="tag">처음이라면</span><h2>확률 → 패턴 → 추천 방식 순서로 읽어보세요.</h2><p>당첨 기록을 요약한 통계와 다음 추첨의 확률은 서로 다른 정보입니다. 각 글은 정의, 계산식, 예시, 실제 사용 방법을 연결해 설명합니다.</p></div><a className="btn primary" href="/guides/first-prize-probability">1등 확률부터 읽기</a></section><GuideCards/><AdSlot/><section className="reading-note"><h2>이 가이드의 작성 기준</h2><p>로또노트의 계산식과 구현된 생성 규칙을 바탕으로 작성한 해설입니다. 조합 계산은 공정하고 독립적인 추첨을 전제로 합니다. 공식 당첨 조건은 동행복권에서 확인할 수 있으며, 개별 예시는 계산 설명을 위한 조합입니다. 미래 당첨번호를 보장하는 공식이나 신뢰도 점수를 제시하지 않습니다.</p><a href="/about">데이터 출처와 갱신 기준 확인</a></section></main>}

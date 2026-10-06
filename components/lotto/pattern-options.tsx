@@ -1,0 +1,9 @@
+import {Checkbox} from '@/components/ui/checkbox';
+import {patternFrequency,type patternHistory,type PatternKey} from '@/lib/analysis';
+type Props={label:string;values:number[];selected:number[];onChange:(values:number[])=>void;history?:ReturnType<typeof patternHistory>;metric?:PatternKey;format?:(n:number)=>string};
+export function PatternOptions({label,values,selected,onChange,history,metric,format=(v)=>`${v}개`}:Props){
+ const counts=values.map(value=>history&&metric?patternFrequency(history,metric,value):null);
+ const top=[...new Set(counts.map(c=>c?.count??0))].filter(n=>n>0).sort((a,b)=>b-a).slice(0,2);
+ const total=counts[0]?.total??0,coverage=counts.reduce((n,c,i)=>n+(selected.includes(values[i])?c?.count??0:0),0);
+ return <fieldset className="pattern-field"><legend>{label}</legend><div className="pattern-options"><label className={`pattern-option ${!selected.length?'chosen':''}`}><Checkbox checked={!selected.length} onCheckedChange={()=>onChange([])}/><span>제한 없음</span></label>{values.map((value,i)=>{const c=counts[i],popular=!!c&&c.count>0&&top.includes(c.count);return <label className={`pattern-option ${selected.includes(value)?'chosen':''} ${popular?'popular':''}`} key={value}><Checkbox checked={selected.includes(value)} onCheckedChange={checked=>onChange(checked?[...selected,value].sort((a,b)=>a-b):selected.filter(v=>v!==value))}/><span className="pattern-value">{format(value)}{c&&<small>{c.count.toLocaleString()}회 · {c.total?(c.count/c.total*100).toFixed(1):'0.0'}%</small>}</span>{popular&&<span className="pattern-badge" title="표시된 값 중 출현 횟수 상위 두 단계">★ 자주 출현</span>}</label>})}</div>{history&&metric&&<p className="pattern-coverage">{selected.length?`선택한 값은 ${coverage.toLocaleString()} / ${total.toLocaleString()}회 (${total?(coverage/total*100).toFixed(1):'0.0'}%)에 해당`:'미선택 시 모든 값 허용'}</p>}</fieldset>
+}

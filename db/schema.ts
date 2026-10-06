@@ -1,0 +1,2 @@
+import {sqliteTable,text,integer,uniqueIndex,index} from 'drizzle-orm/sqlite-core';
+export const tickets=sqliteTable('tickets',{id:text('id').primaryKey(),userId:text('user_id').notNull(),numbers:text('numbers').notNull(),round:integer('round').notNull(),created:text('created').notNull(),method:text('method').notNull()},t=>[uniqueIndex('tickets_user_round_numbers').on(t.userId,t.round,t.numbers),index('tickets_user_created').on(t.userId,t.created)]);
